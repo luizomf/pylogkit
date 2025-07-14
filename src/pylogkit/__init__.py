@@ -2,12 +2,22 @@ from pylogkit.config_logging import get_logger
 from pylogkit.filters import MaxLevelFilter
 from pylogkit.formatters import JSONLogFormatter
 from pylogkit.handlers import MyRichHandler
-from pylogkit.settings import LogLevel
+from pylogkit.settings import (
+    LogLevel,
+    define_setting,
+    validate_level,
+    validate_path_dir,
+    validate_path_file,
+)
 
 __all__ = [
     "JSONLogFormatter",
     "LogLevel",
     "MaxLevelFilter",
     "MyRichHandler",
+    "define_setting",
     "get_logger",
+    "validate_level",
+    "validate_path_dir",
+    "validate_path_file",
 ]

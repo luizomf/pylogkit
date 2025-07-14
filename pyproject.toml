@@ -1,0 +1,95 @@
+[project]
+name = "pylogkit"
+version = "0.0.1"
+description = "Configuração profissional de logging em Python com suporte a JSON, RichHandler, QueueHandler, dotenv, etc."
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Luiz Otávio" }]
+requires-python = ">=3.13"
+dependencies = ["python-dotenv>=1.1.1", "rich>=14.0.0"]
+
+[project.urls]
+Homepage = "https://www.otaviomiranda.com.br/logging-no-python-pare-de-usar-print-no-lugar-errado/"
+Documentation = "https://www.otaviomiranda.com.br/logging-no-python-pare-de-usar-print-no-lugar-errado/"
+Repository = "https://github.com/luizomf/pylogkit.git"
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+fix = true
+show-fixes = true
+indent-width = 4
+exclude = ["venv", ".venv", "env", ".env", "node_modules", "__pycache__"]
+
+[tool.ruff.lint]
+select = [
+    "ASYNC",
+    "A",
+    "ANN",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "COM",
+    "E",
+    "EM",
+    "ERA",
+    "EXE",
+    "F",
+    "FBT",
+    "FIX",
+    "I",
+    "ICN",
+    "ISC",
+    "Q",
+    "RET",
+    "RSE",
+    "S",
+    "SIM",
+    "SLF",
+    "T10",
+    "T20",
+    "TC",
+    "TD",
+    "TRY",
+    "UP",
+    "W",
+    "YTT",
+    "RUF",
+    "N",
+]
+ignore = ["T201", "COM812"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.ruff.lint.isort]
+known-first-party = ["pylogkit"]
+
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.13"
+include = ["src", 'tests']
+exclude = [
+    "**/venv",
+    "**/.venv",
+    "**/env",
+    "**/.env",
+    "**/node_modules",
+    "**/__pycache__",
+]
+venv = ".venv"
+venvPath = "."
+executionEnvironments = [{ root = "src" }]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }

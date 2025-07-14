@@ -34,7 +34,7 @@ wheels = [
 
 [[package]]
 name = "pylogkit"
-version = "0.0.1"
+version = "0.0.11"
 source = { editable = "." }
 dependencies = [
     { name = "python-dotenv" },

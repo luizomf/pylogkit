@@ -1,12 +1,15 @@
 [project]
 name = "pylogkit"
-version = "0.0.1"
+version = "0.0.12"
 description = "Configuração profissional de logging em Python com suporte a JSON, RichHandler, QueueHandler, dotenv, etc."
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "Luiz Otávio" }]
 requires-python = ">=3.13"
 dependencies = ["python-dotenv>=1.1.1", "rich>=14.0.0"]
+
+[project.scripts]
+pylogkit = "pylogkit.main:run"
 
 [project.urls]
 Homepage = "https://www.otaviomiranda.com.br/logging-no-python-pare-de-usar-print-no-lugar-errado/"

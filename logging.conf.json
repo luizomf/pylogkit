@@ -20,11 +20,13 @@
         "processName",
         "taskName",
         "args",
-        "contexto"
+        "context"
       ]
     },
-    "console_stdout": { "format": "OUT: %(message)s", "datefmt": "[%X]" },
-    "console_stderr": { "format": "ERR: %(message)s", "datefmt": "[%X]" }
+    "console": {
+      "format": "%(message)s",
+      "datefmt": "[%X]"
+    }
   },
   "filters": {
     "max_level_info": {
@@ -35,12 +37,12 @@
   "handlers": {
     "queue": {
       "class": "logging.handlers.QueueHandler",
-      "handlers": ["console_stdout", "console_stderr", "file"],
+      "handlers": ["file"],
       "respect_handler_level": true
     },
-    "console_stdout": {
+    "console": {
       "()": "pylogkit.MyRichHandler",
-      "formatter": "console_stdout",
+      "formatter": "console",
       "rich_tracebacks": false,
       "tracebacks_show_locals": false,
       "show_time": true,
@@ -50,22 +52,7 @@
       "enable_link_path": true,
       "show_path": true,
       "file": "stdout",
-      "level": "DEBUG",
-      "filters": ["max_level_info"]
-    },
-    "console_stderr": {
-      "()": "pylogkit.MyRichHandler",
-      "formatter": "console_stderr",
-      "rich_tracebacks": false,
-      "tracebacks_show_locals": false,
-      "show_time": true,
-      "show_level": true,
-      "omit_repeated_times": false,
-      "markup": false,
-      "enable_link_path": true,
-      "show_path": true,
-      "file": "stderr",
-      "level": "WARNING"
+      "level": "DEBUG"
     },
     "file": {
       "class": "logging.handlers.RotatingFileHandler",
@@ -76,6 +63,7 @@
       "encoding": "utf-8"
     }
   },
-  "root": { "handlers": ["queue"] },
-  "loggers": { "meuapp": { "level": "DEBUG" } }
+  "root": {
+    "handlers": ["console", "queue"]
+  }
 }

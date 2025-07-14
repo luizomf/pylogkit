@@ -5,20 +5,21 @@ from logging.config import dictConfig
 from logging.handlers import QueueHandler, QueueListener
 
 from pylogkit.settings import (
-    DEFAULT_LOGGER_LEVEL,
-    LOGGING_CONFIG_JSON,
-    LOGS_DIR,
-    SETUP_LOGGER_LEVEL,
-    SETUP_LOGGER_NAME,
     LogLevel,
+    default_logger_level,
+    logging_config_json,
+    logs_dir,
+    setup_logger_level,
+    setup_logger_name,
+    validate,
     validate_level,
 )
 
 _setup_logging_done: bool = False
 _default_queue_listener: QueueListener | None = None
 
-_logger = logging.getLogger(SETUP_LOGGER_NAME)
-_logger.setLevel(SETUP_LOGGER_LEVEL)
+_logger = logging.getLogger(setup_logger_name)
+_logger.setLevel(setup_logger_level)
 
 
 def _setup_logging() -> None:
@@ -28,17 +29,19 @@ def _setup_logging() -> None:
         _logger.debug("logging already configured, doing nothing for now")
         return
 
-    if not LOGGING_CONFIG_JSON.is_file():
-        msg = f"Logging config file does not exist: {LOGGING_CONFIG_JSON}"
+    validate()
+
+    if not logging_config_json.is_file():
+        msg = f"Logging config file does not exist: {logging_config_json}"
         raise FileNotFoundError(msg)
 
-    if not LOGS_DIR.is_dir():
-        LOGS_DIR.mkdir(parents=True, exist_ok=True)
-        _logger.debug("Logs directory created: %s", LOGS_DIR)
+    if not logs_dir.is_dir():
+        logs_dir.mkdir(parents=True, exist_ok=True)
+        _logger.debug("Logs directory created: %s", logs_dir)
 
-    with LOGGING_CONFIG_JSON.open("r", encoding="utf-8") as file:
+    with logging_config_json.open("r", encoding="utf-8") as file:
         logging_config = json.load(file)
-        _logger.debug("JSON config file loaded: %s", LOGGING_CONFIG_JSON)
+        _logger.debug("JSON config file loaded: %s", logging_config_json)
 
     dictConfig(logging_config)
 
@@ -100,7 +103,7 @@ def get_logger(name: str = "", level: LogLevel | None = None) -> logging.Logger:
         )
         logger.setLevel(level)
     else:
-        env_level = DEFAULT_LOGGER_LEVEL
+        env_level = default_logger_level
         _logger.debug(
             f"Level {env_level!r} used by 'ENV' to configure {name!r} logger."
         )

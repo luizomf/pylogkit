@@ -40,10 +40,10 @@ def write_file(
         file.write(data)
 
 
-def write_dotenv(path: Path) -> None:
+def write_dotenv(path: Path, json_file_name: str = "logging.conf.json") -> None:
     path = path.resolve()
 
-    data = textwrap.dedent("""\
+    data = textwrap.dedent(f"""\
 
     # PYLOGKIT
     # Configurações dos logs
@@ -52,18 +52,18 @@ def write_dotenv(path: Path) -> None:
     LOGS_DIR=logs
     # Arquivo de configuração do logging em JSON que será convertido em dict
     # e usado com dictConfig
-    LOGGING_CONFIG_JSON='logging.conf.json'
+    LOGGING_CONFIG_JSON='{json_file_name}'
 
     # Nome do logger usado dentro da configuração do logging do Python.
     SETUP_LOGGER_NAME='config_setup'
     # Level do logger usado dentro da configuração do logging do Python.
     # Dica: Subir para WARNING vai desativar os logs relacionado à configuração
     # do logging
-    SETUP_LOGGER_LEVEL='DEBUG'
+    SETUP_LOGGER_LEVEL='WARNING'
 
     # Configuração de nível (level) padrão para todos os loggers criados com
     # get_logger
-    DEFAULT_LOGGER_LEVEL='DEBUG'
+    DEFAULT_LOGGER_LEVEL='WARNING'
     # END OF PYLOGKIT
 
     """)
@@ -78,7 +78,7 @@ def write_dotenv(path: Path) -> None:
     rprint(data)
 
 
-def write_json(path: Path) -> None:
+def write_json(path: Path) -> Path:
     path = path.resolve()
     data = json.dumps(
         {
@@ -154,6 +154,8 @@ def write_json(path: Path) -> None:
     rprint(f"\nWROTE JSON data to file: {path}\n")
     rprint(data)
 
+    return path
+
 
 def run() -> None:
     parser = build_parser()
@@ -163,11 +165,12 @@ def run() -> None:
     if not args.dotenv and not args.json:
         parser.error("You must provide at least one of --dotenv or --json.")
 
-    if args.dotenv:
-        write_dotenv(args.dotenv)
-
+    json_file = Path("logging.conf.json").resolve()
     if args.json:
-        write_json(args.json)
+        json_file = write_json(args.json)
+
+    if args.dotenv:
+        write_dotenv(args.dotenv, json_file_name=json_file.name)
 
     rprint("\n✅ Everything is ready, try running\n")
     rprint(">>> from pylogkit import get_logger\n")

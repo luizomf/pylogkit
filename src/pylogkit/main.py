@@ -11,7 +11,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="pylogkit",
         description=textwrap.dedent("""\
-            pylogkit configures python standart logging library for you
+            pylogkit configures python standard logging library for you
         """),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
